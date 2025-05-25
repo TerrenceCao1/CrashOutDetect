@@ -74,7 +74,9 @@ void loop(void)
 
     int mercalli = accelToMercalli(maxMag - 0.15);
     Serial.print("Mercalli: "); Serial.println(mercalli);
-    
+
+    //lowkey may need to reoptimize the mercalli cause it's too sensitive
+
     //Light up LED's according to it
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     //3D model a casing for the leds (potentially solder it to a protoboard...)
