@@ -54,21 +54,28 @@ void loop(void)
     float yAccel = event.acceleration.y - yOffset;
     float zAccel = event.acceleration.z - zOffset;
 
-    //Test code for checking the accel
-    // Serial.print("X: "); Serial.print(event.acceleration.x + 0.3); Serial.print("  ");
-    // Serial.print("Y: "); Serial.print(event.acceleration.y + 1.1); Serial.print("  ");
-    // Serial.print("Z: "); Serial.print(event.acceleration.z + -7.3); Serial.print("  ");Serial.println("m/s^2 ");
-    // delay(100);
-
-    //find the magnitue of accel:
+    //sample for 1/4 a second - find the peak magnitude of acceleration during that second
     float Mag = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
-    Serial.print("Acceleration Magnitude: "); Serial.print(Mag); Serial.println("m/s^2 ");
-    delay(500);
+    float maxMag = Mag;
+    int count = 0;
+    while (count < 25)
+    {
+        accel.getEvent(&event);
+        float xAccel = event.acceleration.x - xOffset;
+        float yAccel = event.acceleration.y - yOffset;
+        float zAccel = event.acceleration.z - zOffset;
+        float compare = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
+        if (maxMag < compare)
+        {
+            maxMag = compare;
+        }
+        count++;
+        delay(10);
+    }
+    Serial.print("Max Magnitude: "); Serial.println(maxMag);
 
-    //TODO:
-    //turn acceleration -> Richter Scale
     //Light up LED's according to it
-    //Hookup a CTRL-S and restart PC macro to the slamming your desk 
+    //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     //3D model a casing for the leds (potentially solder it to a protoboard...)
         //try to make it look pretty 
     //profit
