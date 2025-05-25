@@ -26,7 +26,7 @@ void setup(void)
     //we use 2G since slamming your desk doesn't cause that much accel
     //sensitivity matters more than range of measurements
 
-    
+    //calibration stuff (taking 10 samples while the sensor is staying still then averaging the xyz)
     for (int i = 0; i < 10; i++)
     {
         //get event
@@ -41,6 +41,8 @@ void setup(void)
     }
     //getting the averages
     xOffset /= 10; yOffset /= 10; zOffset /= 10;
+
+    
     Serial.println(" ");
 }
 
@@ -57,8 +59,6 @@ void loop(void)
     // Serial.print("Y: "); Serial.print(event.acceleration.y + 1.1); Serial.print("  ");
     // Serial.print("Z: "); Serial.print(event.acceleration.z + -7.3); Serial.print("  ");Serial.println("m/s^2 ");
     // delay(100);
-
-    
 
     //find the magnitue of accel:
     float Mag = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
