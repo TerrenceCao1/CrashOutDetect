@@ -1,11 +1,8 @@
-//for crashout detector:
-//sample and get reading from accelerometer every 0.1s
-//calculate the magnitude of the acceleration vector
-//translate to the mercalli chart for earthquake magnitude
-//display the result on leds
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADXL345_U.h>
+#include <mercalli.h>
+#include <LEDs.h>
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
 
@@ -54,9 +51,8 @@ void loop(void)
     float yAccel = event.acceleration.y - yOffset;
     float zAccel = event.acceleration.z - zOffset;
 
-    //sample for 1/4 a second - find the peak magnitude of acceleration during that second
-    float Mag = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
-    float maxMag = Mag;
+    //sample for 1/4 a second (25 iterations * 10ms) - find the peak magnitude of acceleration during that second
+    float maxMag = 0;
     int count = 0;
     while (count < 25)
     {
@@ -74,6 +70,11 @@ void loop(void)
     }
     Serial.print("Max Magnitude: "); Serial.println(maxMag);
 
+    //converting to Mercalli Scale (based upon local intensity) - we will subtract 0.15 for accelerometer error
+
+    int mercalli = accelToMercalli(maxMag - 0.15);
+    Serial.print("Mercalli: "); Serial.println(mercalli);
+    
     //Light up LED's according to it
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     //3D model a casing for the leds (potentially solder it to a protoboard...)
