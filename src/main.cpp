@@ -64,4 +64,12 @@ void loop(void)
     float Mag = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
     Serial.print("Acceleration Magnitude: "); Serial.print(Mag); Serial.println("m/s^2 ");
     delay(500);
+
+    //TODO:
+    //turn acceleration -> Richter Scale
+    //Light up LED's according to it
+    //Hookup a CTRL-S and restart PC macro to the slamming your desk 
+    //3D model a casing for the leds (potentially solder it to a protoboard...)
+        //try to make it look pretty 
+    //profit
 }
