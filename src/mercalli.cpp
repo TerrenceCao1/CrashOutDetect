@@ -1,5 +1,6 @@
 #include <arduino.h>
 #include <mercalli.h>
+#include <stdio.h>
 
 
 //converting to Mercalli Scale (based upon local intensity) all values in m/s^2
@@ -14,45 +15,39 @@ viii: 3.9
 ix: 7.4
 x: 13.6  
 */
-int accelToMercalli(float a)
+int accelToMercalli(float acceleration)
 {
     //offset (to make it less sensitive)
-    a = a - 1.5;
+    acceleration -= 1.5f;
+    
     //we don't care about anything less than iii
-    if (a < 0.029)
+    if (acceleration < 0.029f)
     {
         return 0;
     }
-    else if (a < 0.27)
+
+    static const struct 
     {
-        return 3;
-    }
-    else if (a < 0.61)
+        float max_accel;
+        int mercalli_level;
+    } mercalli_thresholds[] = 
     {
-        return 4;
-    }
-    else if (a < 1.2)
+        { 0.27f,  3 },
+        { 0.61f,  4 },
+        { 1.2f,   5 },
+        { 2.2f,   6 },
+        { 3.9f,   7 },
+        { 7.4f,   8 },
+        { 13.6f,  9 },
+        { 9999999999.0f, 10 } 
+    };
+
+    for (size_t i = 0; i < sizeof(mercalli_thresholds)/sizeof(mercalli_thresholds[0]); i++)
     {
-        return 5;
+        if (acceleration < mercalli_thresholds[i].max_accel)
+        {
+            return mercalli_thresholds[i].mercalli_level;
+        }
     }
-    else if (a < 2.2)
-    {
-        return 6;
-    }
-    else if (a < 3.9)
-    {
-        return 7;
-    }
-    else if (a < 7.4)
-    {
-        return 8;
-    }
-    else if (a < 13.6)
-    {
-        return 9;
-    }
-    else
-    {
-        return 10;
-    }
+    return 10;
 }
