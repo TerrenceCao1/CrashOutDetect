@@ -2,7 +2,7 @@
 #include <mercalli.h>
 
 
-//converting to Mercalli Scale (based upon local intensity) - we will subtract 0.15 for accelerometer error
+//converting to Mercalli Scale (based upon local intensity) all values in m/s^2
 /*thresholds: 
 i: anything less 
 ii/iii: 0.029
@@ -16,8 +16,8 @@ x: 13.6
 */
 int accelToMercalli(float a)
 {
-    //offset (to make it less sensitive this is not part of )
-    a = a - 0.5;
+    //offset (to make it less sensitive)
+    a = a - 1.5;
     //we don't care about anything less than iii
     if (a < 0.029)
     {

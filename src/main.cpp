@@ -39,7 +39,6 @@ void setup(void)
     //getting the averages
     xOffset /= 10; yOffset /= 10; zOffset /= 10;
 
-    
     Serial.println(" ");
 }
 
@@ -68,11 +67,8 @@ void loop(void)
     Serial.print("Max Magnitude: "); Serial.println(maxMag);
 
     //converting to Mercalli Scale (based upon local intensity) - we will subtract 0.15 for accelerometer error
-
     int mercalli = accelToMercalli(maxMag - 0.15);
     Serial.print("Mercalli: "); Serial.println(mercalli);
-
-    //lowkey may need to reoptimize the mercalli cause it's too sensitive
 
     //Light up LED's according to it
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
