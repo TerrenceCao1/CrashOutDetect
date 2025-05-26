@@ -47,9 +47,6 @@ void loop(void)
 {
     sensors_event_t event; 
     accel.getEvent(&event);
-    float xAccel = event.acceleration.x - xOffset;
-    float yAccel = event.acceleration.y - yOffset;
-    float zAccel = event.acceleration.z - zOffset;
 
     //sample for 1/4 a second (25 iterations * 10ms) - find the peak magnitude of acceleration during that second
     float maxMag = 0;
