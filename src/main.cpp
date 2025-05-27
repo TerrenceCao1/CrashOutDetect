@@ -3,6 +3,7 @@
 #include <Adafruit_ADXL345_U.h>
 #include <mercalli.h>
 #include <LEDs.h>
+#include <accelFunctions.h>
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
 
@@ -26,8 +27,7 @@ void setup(void)
     DDRB |= B00111111; // 8 - 13
     DDRD |= B11000000; // 6 and 7
 
-
-    //calibration stuff (taking 100 samples over a second while the sensor is staying still then averaging the xyz)
+    //Calibrating the sensor - taking 100 samples over a second to find average offset when sensor is sitting still.
     for (uint8_t i = 0; i < 100; i++)
     {
         //get event
@@ -42,14 +42,15 @@ void setup(void)
     }
     //getting the averages
     xOffset /= 100; yOffset /= 100; zOffset /= 100;
-
+    Serial.println("Calibration Complete!");
+    
     Serial.println(" ");
 }
 
 void loop(void)
 {
     sensors_event_t event; 
-    
+
     //sample for 1/4 a second (25 iterations * 10ms) - find the peak magnitude of acceleration during that second
     float maxMag = 0;
     uint8_t count = 0;
