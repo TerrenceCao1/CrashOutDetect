@@ -19,9 +19,13 @@ void setup(void)
         while(1);
     }
     
+    //we use 2G since slamming your desk doesn't cause that much accel, sensitivity > range in our case
     accel.setRange(ADXL345_RANGE_2_G); 
-    //we use 2G since slamming your desk doesn't cause that much accel
-    //sensitivity matters more than range of measurements
+
+    //setting digital pins 6-13 to output;
+    DDRB |= B00111111; // 8 - 13
+    DDRD |= B11000000; // 6 and 7
+
 
     //calibration stuff (taking 100 samples over a second while the sensor is staying still then averaging the xyz)
     for (uint8_t i = 0; i < 100; i++)
@@ -45,8 +49,7 @@ void setup(void)
 void loop(void)
 {
     sensors_event_t event; 
-    accel.getEvent(&event);
-
+    
     //sample for 1/4 a second (25 iterations * 10ms) - find the peak magnitude of acceleration during that second
     float maxMag = 0;
     uint8_t count = 0;
@@ -70,9 +73,11 @@ void loop(void)
     int mercalli = accelToMercalli(maxMag - 0.15);
     Serial.print("Mercalli: "); Serial.println(mercalli);
 
-    //lowkey may need to reoptimize the mercalli cause it's too sensitive
-
+    
     //Light up LED's according to it
+    driveLEDs(mercalli-2);
+
+    
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     //3D model a casing for the leds (potentially solder it to a protoboard...)
         //try to make it look pretty 
