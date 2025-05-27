@@ -28,6 +28,7 @@ void setup(void)
     DDRD |= B11000000; // 6 and 7
 
     //Calibrating the sensor - taking 100 samples over a second to find average offset when sensor is sitting still.
+    Serial.println("Starting Calibration");
     for (uint8_t i = 0; i < 100; i++)
     {
         //get event
