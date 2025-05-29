@@ -81,6 +81,10 @@ void loop(void)
 
     
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
+    if (mercalli == 10)
+    {
+        Serial.println("RESTART");
+    }
     //3D model a casing for the leds (potentially solder it to a protoboard...)
         //try to make it look pretty 
     //profit

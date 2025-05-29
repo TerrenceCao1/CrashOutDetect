@@ -8,6 +8,6 @@ while True:
     line = ser.readline().decode('utf-8').strip()
     if line == "RESTART":
         print("Restarting computer...")
-        os.system("shutdown /r /t 1")  # For Windows
+        os.system("shutdown /r /t 1")  
         break
     time.sleep(0.1)
