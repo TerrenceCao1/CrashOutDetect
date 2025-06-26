@@ -32,7 +32,7 @@ void setup(void)
     for (uint8_t i = 0; i < 100; i++)
     {
         //get event
-        sensors_event_t event; 
+        sensors_event_t event;
         accel.getEvent(&event);
 
         //summing the tries
@@ -79,7 +79,6 @@ void loop(void)
     //Light up LED's according to it
     driveLEDs(mercalli-2);
 
-    
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     if (mercalli == 10)
     {
