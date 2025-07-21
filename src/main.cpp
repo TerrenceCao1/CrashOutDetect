@@ -1,67 +1,49 @@
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_ADXL345_U.h>
 #include <mercalli.h>
 #include <LEDs.h>
-#include <accelFunctions.h>
+#include <adxl345.h>
+#include <Arduino.h>
 
-Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
-
-float xOffset = 0, yOffset = 0, zOffset = 0;
+//calibration values array
+float calArray[3];
 
 void setup(void)
 {
     Serial.begin(9600);
 
-    //checking that john works:
-    if(!accel.begin())
+    //checking that john is connected:
+    if(!checkForSensor())
     {
-        Serial.println("No sensor detected - check that john.");
         while(1);
     }
     
-    //we use 2G since slamming your desk doesn't cause that much accel, sensitivity > range in our case
-    accel.setRange(ADXL345_RANGE_2_G); 
+    //turning sensor on and setting range
+    //we use 2G range (since we care much less about range, since i cant slam my desk that hard and more about the precision)
+    turnOn();
+    setParams(2);
 
     //setting digital pins 6-13 to output;
     DDRB |= B00111111; // 8 - 13
     DDRD |= B11000000; // 6 and 7
 
     //Calibrating the sensor - taking 100 samples over a second to find average offset when sensor is sitting still.
-    Serial.println("Starting Calibration");
-    for (uint8_t i = 0; i < 100; i++)
-    {
-        //get event
-        sensors_event_t event;
-        accel.getEvent(&event);
-
-        //summing the tries
-        xOffset += event.acceleration.x;
-        yOffset += event.acceleration.y;
-        zOffset += event.acceleration.z;
-        delay(10);
-    }
-    //getting the averages
-    xOffset /= 100; yOffset /= 100; zOffset /= 100;
-    Serial.println("Calibration Complete!");
-    
-    Serial.println(" ");
+    calibrate(calArray);
 }
 
 void loop(void)
 {
-    sensors_event_t event; 
+    float accelArr[3];
 
     //sample for 1/4 a second (25 iterations * 10ms) - find the peak magnitude of acceleration during that second
     float maxMag = 0;
     uint8_t count = 0;
     while (count < 25)
     {
-        accel.getEvent(&event);
-        float xAccel = event.acceleration.x - xOffset;
-        float yAccel = event.acceleration.y - yOffset;
-        float zAccel = event.acceleration.z - zOffset;
-        float compare = sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
+        getAccel(accelArr, calArray);
+        float xAccel = accelArr[0];
+        float yAccel = accelArr[1];
+        float zAccel = 0.4* accelArr[2];
+        float compare = 0.4 * sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel);
         if (maxMag < compare)
         {
             maxMag = compare;
@@ -78,13 +60,10 @@ void loop(void)
     
     //Light up LED's according to it
     driveLEDs(mercalli-2);
-
+ 
     //Hookup a CTRL-S and restart PC macro to the slamming your desk at a certain point
     if (mercalli == 10)
     {
         Serial.println("RESTART");
     }
-    //3D model a casing for the leds (potentially solder it to a protoboard...)
-        //try to make it look pretty 
-    //profit
 }
