@@ -11,7 +11,7 @@ I will use an accelerometer (the ADXL345)  to gather data on how much the stuff 
 ### LED "Crash-out" Visualizer
 It's essentially a vertical array of LED's. In real time, the LED's will light up based on the intensity of the desk slam. Each LED indicates a level on the Mercalli Scale - going up from 3, 4, 5, 6, up to 10. I didn't include 1 or 2 because the accelerations are so miniscule that our accelerometer literally cannot distinguish between accelerations at that scale. 
 
-<img src="photosForGithub/githubREADMESTUFF.jpg" alt = "LED Array" height = "50%">
+<img src="./photosForGithub/githubREADMESTUFF.JPG" alt = "LED Array" height = "50%">
 
 ### Outro
 This was an ultra fun project to get my feet wet in embedded so thank you for checking it out!
