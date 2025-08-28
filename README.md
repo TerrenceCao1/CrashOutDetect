@@ -1,8 +1,8 @@
 # Crash Out Detector (Seismometer)
 ### Intro 
 This thing detects desk slams and plots them on the Richter Scale watch my video if you want!
+[![Watch the video :)](https://img.youtube.com/vi/eW6yBVyZzYQ/0.jpg)](https://www.youtube.com/watch?v=eW6yBVyZzYQ)
 
-<video src="https://www.youtube.com/watch?v=eW6yBVyZzYQ" width = "300" controls>
 ### Accelerometers
 I will use an accelerometer (the ADXL345)  to gather data on how much the stuff on my desk moves during a "crash-out". This device essentially tracks acceleration in 3 dimensions (x,y,z) and will send it back to the Arduino using i2c, which parses and processes the data using my ADXL345 library.
 
