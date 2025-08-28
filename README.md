@@ -1,6 +1,6 @@
 # Crash Out Detector (Seismometer)
 ### Intro 
-This thing detects desk slams and plots them on the Richter Scale watch my video if you want!
+This thing detects desk slams and plots them on the Richter Scale. Watch my video if you want! I document the progess and process of making it. Simply click the thumbnail below: 
 [![Watch the video :)](https://img.youtube.com/vi/eW6yBVyZzYQ/0.jpg)](https://www.youtube.com/watch?v=eW6yBVyZzYQ)
 
 ### Accelerometers
@@ -11,7 +11,7 @@ I will use an accelerometer (the ADXL345)  to gather data on how much the stuff 
 ### LED "Crash-out" Visualizer
 It's essentially a vertical array of LED's. In real time, the LED's will light up based on the intensity of the desk slam. Each LED indicates a level on the Mercalli Scale - going up from 3, 4, 5, 6, up to 10. I didn't include 1 or 2 because the accelerations are so miniscule that our accelerometer literally cannot distinguish between accelerataions at that scale. 
 
- 
+
 
 ### Outro
 This was an ultra fun project to get my feet wet in embedded so thank you for checking it out!
